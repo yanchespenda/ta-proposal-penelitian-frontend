@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="base-scripts" data-scripts="[{ 
+        &quot;url&quot;: &quot;index.js&quot;,
+        &quot;options&quot;: {
+        &quot;async&quot;: false,
+        &quot;defer&quot;: false
+        }
+        }]">
+    </div>
+    <div id="extra-scripts" data-scripts="">
+    </div>
+    <script type="text/javascript">
+        var base_scripts = document.querySelector("#base-scripts").getAttribute('data-scripts');
+        base_scripts = JSON.parse(base_scripts);
+        var extra_scripts = document.querySelector("#extra-scripts").getAttribute('data-scripts');
+        if (extra_scripts) {
+            extra_scripts = JSON.parse(extra_scripts);
+        } else {
+            extra_scripts = [];
+        }
+        var scripts = base_scripts.concat(extra_scripts);
+        scripts.forEach(function(scriptObj) {
+            var s = document.createElement('script');
+            s.async = scriptObj.options.async;
+            s.defer = scriptObj.options.defer;
+            s.src = scriptObj.url;
+            document.head.appendChild(s);
+        });
+    </script>
+</body>
+</html>
