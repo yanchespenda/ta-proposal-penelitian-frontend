@@ -4,12 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Sistem Monitoring Cuaca</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <style>
+        @charset "UTF-8";
+
+        [ng\:cloak],
+        [ng-cloak],
+        [data-ng-cloak],
+        [x-ng-cloak],
+        .ng-cloak,
+        .x-ng-cloak,
+        .ng-hide:not(.ng-hide-animate) {
+            display: none !important;
+        }
+
+        ng\:form {
+            display: block;
+        }
+
+        .ng-animate-shim {
+            visibility:hidden;
+        }
+
+        .ng-anchor {
+            position:absolute;
+        }
+    </style>
 </head>
-<body>
+<body ng-controller="app_control" ng-init="init()">
+    <section ng-cloak>
+        <md-content>
+            <md-toolbar class="md-hue-2">
+                <div class="md-toolbar-tools">
+                    <h2 flex md-truncate>Monitoring Cuaca</h2>
+                </div>
+            </md-toolbar>
+        </md-content>
+    </section>
+    <section ng-cloak flex layout="row">
+        <md-content class="md-padding" flex layout="row" layout-xs="column" layout-sm="column">
+            <div flex-xs flex-sm flex-gt-sm="50" layout="column">
+                <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                    <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">KONDISI TERKINI DI TANGERANG</span>
+                                <span class="md-subhead">Update Terakhir: {{ curentDataA.lastUpdate }}</span>
+                            </md-card-title-text>
+                    </md-card-title>
+                    <md-card-content>
+
+                        <div id="wob_d" style="font:16px arial,helvetica,sans-serif;padding:20px 0 0;-webkit-touch-callout:none;-webkit-user-select:none">
+                            <div>
+                                <!-- <img style="float:left;height:64px;width:64px" alt="Humadity" src="./resources/img/Humidity.svg"> -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 1" alt="Cloud" src="./resources/img/Cloud.svg"><!-- Clouds 803 804-->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 2" alt="Cloud Drizzle" src="./resources/img/Cloud-Drizzle.svg"><!-- Rain -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 3" alt="Sun" src="./resources/img/Sun.svg"><!-- Clear 800 -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 4" alt="Cloud Sun" src="./resources/img/Cloud-Sun.svg"><!-- Clouds 801 802 -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 5" alt="Cloud Lightning" src="./resources/img/Cloud-Lightning.svg"><!-- Thunderstorm -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 6" alt="Cloud Fog" src="./resources/img/Cloud-Fog.svg"><!-- Haze Mist Smoke Dust Fog Sand Dust Ash Squall Tornado -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 7" alt="Cloud Rain Sun" src="./resources/img/Cloud-Rain-Sun.svg"><!-- Drizzle -->
+                                <div aria-level="3" role="heading" style="padding-left:10px;float:left">
+                                    <div>
+                                        <div class="vk_bk sol-tmp" style="float:left;margin-top:-3px;font-size:64px">
+                                            <span class="wob_t" id="wob_tm" style="display:inline">{{ curentDataA.temperature }}</span>
+                                        </div>
+                                        <div class="vk_bk wob-unit" style="float:left;font-size:16px;margin-top:6px">
+                                            <span class="wob_t" style="display:inline" aria-label="°Celsius" aria-disabled="true" role="button">°C</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div aria-level="3" role="heading" style="padding-left:10px;float:right">
+                                    <div>
+                                        <div class="vk_bk wob-unit" style="float:right;font-size:16px;margin-top:6px">
+                                                <span class="wob_t" style="display:inline" aria-label="°Celsius" aria-disabled="true" role="button">%</span>
+                                            </div>
+                                        <div class="vk_bk sol-tmp" style="float:right;margin-top:-3px;font-size:64px">
+                                            <span class="wob_t" id="wob_tm" style="display:inline">{{ curentDataA.humadity }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img style="float:right;height:64px;width:64px" alt="Humadity" src="./resources/img/Humidity.svg">
+                            </div>
+                        </div>
+                    </md-card-content>
+                </md-card>
+                <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                    <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">KONDISI TERKINI DI RUMAH</span>
+                                <span class="md-subhead">Update Terakhir: {{ curentDataB.lastUpdate }}</span>
+                            </md-card-title-text>
+                    </md-card-title>
+                    <md-card-content>
+
+                        <div id="wob_d" style="font:16px arial,helvetica,sans-serif;padding:20px 0 0;-webkit-touch-callout:none;-webkit-user-select:none">
+                            <div>
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 1" alt="Cloud" src="./resources/img/Cloud.svg"><!--  -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 2" alt="Cloud Drizzle" src="./resources/img/Cloud-Drizzle.svg"><!-- Rain -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 3" alt="Sun" src="./resources/img/Sun.svg"><!-- Clear -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 4" alt="Cloud Sun" src="./resources/img/Cloud-Sun.svg"><!-- Clouds -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 5" alt="Cloud Lightning" src="./resources/img/Cloud-Lightning.svg"><!-- Thunderstorm -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 6" alt="Cloud Fog" src="./resources/img/Cloud-Fog.svg"><!-- Haze Mist Smoke Dust Fog Sand Dust Ash Squall Tornado -->
+                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 7" alt="Cloud Rain Sun" src="./resources/img/Cloud-Rain-Sun.svg"><!-- Drizzle -->
+                                <div aria-level="3" role="heading" style="padding-left:10px;float:left">
+                                    <div>
+                                        <div class="vk_bk sol-tmp" style="float:left;margin-top:-3px;font-size:64px">
+                                            <span class="wob_t" id="wob_tm" style="display:inline">{{ curentDataB.temperature }}</span>
+                                        </div>
+                                        <div class="vk_bk wob-unit" style="float:left;font-size:16px;margin-top:6px">
+                                            <span class="wob_t" style="display:inline" aria-label="°Celsius" aria-disabled="true" role="button">°C</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div aria-level="3" role="heading" style="padding-left:10px;float:right">
+                                    <div>
+                                        <div class="vk_bk wob-unit" style="float:right;font-size:16px;margin-top:6px">
+                                                <span class="wob_t" style="display:inline" aria-label="°Celsius" aria-disabled="true" role="button">%</span>
+                                            </div>
+                                        <div class="vk_bk sol-tmp" style="float:right;margin-top:-3px;font-size:64px">
+                                            <span class="wob_t" id="wob_tm" style="display:inline">{{ curentDataB.humadity }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img style="float:right;height:64px;width:64px" alt="Humadity" src="./resources/img/Humidity.svg">
+                            </div>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </div>
+            <div flex-xs flex-sm flex-gt-sm="50" layout="column">
+                <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">STATISTIK DURASI HUJAN DI RUMAH (MENIT)</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-content>
+                        <div class="flex graph-container">
+                            <canvas id="chartDiagram" class="chart chart-bar" chart-data="statistik.data" chart-labels="statistik.labels" chart-series="statistik.series" chart-options="statistik.config" ></canvas>
+                        </div>
+                    </md-card-content>
+                </md-card>
+                <!-- <md-card md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">Card with image</span>
+                            <span class="md-subhead">Medium</span>
+                        </md-card-title-text>
+                        <md-card-title-media>
+                            <div class="md-media-md card-media"></div>
+                        </md-card-title-media>
+                    </md-card-title>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button>Action 1</md-button>
+                        <md-button>Action 2</md-button>
+                    </md-card-actions>
+                </md-card> -->
+                <!-- <div layout layout-padding layout-align="center end" style="height:200px">
+                    <md-checkbox ng-model="showDarkTheme">Use 'Dark' Themed Cards</md-checkbox>
+                </div> -->
+            </div>
+        </md-content>
+
+    </section>
+    <section ng-cloak>
+        <div layout="row" flex="noshrink" layout-align="center center">
+            <div id="license-footer" flex>
+                &copy; 2019 - Alfian Rikzandi - ARProject - Tugas Proposal Individu Bahasa Indonesia.
+            </div>
+        </div>
+    </section>
     
-    <div id="base-scripts" data-scripts="[{ 
-        &quot;url&quot;: &quot;index.js&quot;,
+    <!-- <div id="base-scripts" data-scripts="[{ 
+        &quot;url&quot;: &quot;main.js&quot;,
         &quot;options&quot;: {
         &quot;async&quot;: false,
         &quot;defer&quot;: false
@@ -17,8 +185,8 @@
         }]">
     </div>
     <div id="extra-scripts" data-scripts="">
-    </div>
-    <script type="text/javascript">
+    </div> -->
+    <!-- <script type="text/javascript">
         var base_scripts = document.querySelector("#base-scripts").getAttribute('data-scripts');
         base_scripts = JSON.parse(base_scripts);
         var extra_scripts = document.querySelector("#extra-scripts").getAttribute('data-scripts');
@@ -35,6 +203,6 @@
             s.src = scriptObj.url;
             document.head.appendChild(s);
         });
-    </script>
+    </script> -->
 </body>
 </html>
