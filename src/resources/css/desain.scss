@@ -18,3 +18,64 @@ body{
     font-size: small;
     border-top: 1px solid #ddd;
 }
+
+.card-container{
+    font: 16px arial,helvetica,sans-serif;
+    padding: 20px 0 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
+.card-text-inline{
+    display:inline;
+}
+
+.card-svg-img-kiri{
+    float:left;
+    height:64px;
+    width:64px;
+}
+
+.card-text-kiri{
+    padding-left:10px;
+    float:left;
+}
+
+.card-text-kiri-helper{
+    float:left;
+    margin-top:-3px;
+    font-size:64px
+}
+
+.card-text-kiri-helper-kecil{
+    float:left;
+    font-size:16px;
+    margin-top:6px
+}
+
+.card-svg-img-kanan{
+    float:right;
+    height:64px;
+    width:64px
+}
+
+.card-text-kanan{
+    padding-left:10px;
+    float:right
+}
+
+.card-text-kanan-helper{
+    float:right;
+    font-size:16px;
+    margin-top:6px
+}
+
+.card-text-kanan-helper-kecil{
+    float:right;
+    margin-top:-3px;
+    font-size:64px
+}
+
+svg path.dark{
+    fill:#FFFFFF;
+}

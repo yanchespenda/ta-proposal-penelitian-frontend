@@ -30,14 +30,31 @@
         .ng-anchor {
             position:absolute;
         }
+        .svg-assets{
+            display:none;
+            }
+        .svg-assets path{
+            stroke-width:inherit;
+        }
+        .svg-assets{
+            display:block;
+            width:0;
+            height:0;
+            position:absolute;
+            visibility:hidden;
+        }
     </style>
 </head>
-<body ng-controller="app_control" ng-init="init()">
+<body ng-controller="app_control" ng-init="init()" md-theme="{{ dynamicTheme }}" md-theme-watch layout="column">
     <section ng-cloak>
         <md-content>
-            <md-toolbar class="md-hue-2">
+            <md-toolbar>
                 <div class="md-toolbar-tools">
                     <h2 flex md-truncate>Monitoring Cuaca</h2>
+                    <div class="flex"></div>
+                    <md-switch ng-click="themeChanger()" aria-label="Switch Dark Mode">
+                        Dark Mode
+                    </md-switch>
                 </div>
             </md-toolbar>
         </md-content>
@@ -45,7 +62,7 @@
     <section ng-cloak flex layout="row">
         <md-content class="md-padding" flex layout="row" layout-xs="column" layout-sm="column">
             <div flex-xs flex-sm flex-gt-sm="50" layout="column">
-                <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                <md-card>
                     <md-card-title>
                             <md-card-title-text>
                                 <span class="md-headline">KONDISI TERKINI DI TANGERANG</span>
@@ -53,43 +70,64 @@
                             </md-card-title-text>
                     </md-card-title>
                     <md-card-content>
-
-                        <div id="wob_d" style="font:16px arial,helvetica,sans-serif;padding:20px 0 0;-webkit-touch-callout:none;-webkit-user-select:none">
+                        <div class="card-container">
                             <div>
-                                <!-- <img style="float:left;height:64px;width:64px" alt="Humadity" src="./resources/img/Humidity.svg"> -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 1" alt="Cloud" src="./resources/img/Cloud.svg"><!-- Clouds 803 804-->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 2" alt="Cloud Drizzle" src="./resources/img/Cloud-Drizzle.svg"><!-- Rain -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 3" alt="Sun" src="./resources/img/Sun.svg"><!-- Clear 800 -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 4" alt="Cloud Sun" src="./resources/img/Cloud-Sun.svg"><!-- Clouds 801 802 -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 5" alt="Cloud Lightning" src="./resources/img/Cloud-Lightning.svg"><!-- Thunderstorm -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 6" alt="Cloud Fog" src="./resources/img/Cloud-Fog.svg"><!-- Haze Mist Smoke Dust Fog Sand Dust Ash Squall Tornado -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataA.icon == 7" alt="Cloud Rain Sun" src="./resources/img/Cloud-Rain-Sun.svg"><!-- Drizzle -->
-                                <div aria-level="3" role="heading" style="padding-left:10px;float:left">
+                                <!-- <md-icon class="card-svg-img-kiri" md-svg-src="./resources/img/Cloud.svg"></md-icon> -->
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataA.icon == 1">
+                                    <use xlink:href="#img-cloud"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataA.icon == 2">
+                                    <use xlink:href="#img-cloud-drizzle"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataA.icon == 3">
+                                    <use xlink:href="#img-sun"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataA.icon == 4">
+                                    <use xlink:href="#img-cloud-sun"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataA.icon == 5">
+                                    <use xlink:href="#img-cloud-lightning"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataA.icon == 6">
+                                    <use xlink:href="#img-cloud-fog"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataA.icon == 7">
+                                    <use xlink:href="#img-cloud-rain-sun"></use>
+                                </svg>
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataA.icon == 1" alt="Cloud" src="./resources/img/Cloud.svg">Clouds 803 804 -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataA.icon == 2" alt="Cloud Drizzle" src="./resources/img/Cloud-Drizzle.svg">Rain -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataA.icon == 3" alt="Sun" src="./resources/img/Sun.svg">Clear 800 -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataA.icon == 4" alt="Cloud Sun" src="./resources/img/Cloud-Sun.svg">Clouds 801 802 -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataA.icon == 5" alt="Cloud Lightning" src="./resources/img/Cloud-Lightning.svg">Thunderstorm -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataA.icon == 6" alt="Cloud Fog" src="./resources/img/Cloud-Fog.svg">Haze Mist Smoke Dust Fog Sand Dust Ash Squall Tornado -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataA.icon == 7" alt="Cloud Rain Sun" src="./resources/img/Cloud-Rain-Sun.svg">Drizzle -->
+                                <div aria-level="3" role="heading" class="card-text-kiri">
                                     <div>
-                                        <div class="vk_bk sol-tmp" style="float:left;margin-top:-3px;font-size:64px">
-                                            <span class="wob_t" id="wob_tm" style="display:inline">{{ curentDataA.temperature }}</span>
+                                        <div class="card-text-kiri-helper">
+                                            <span class="card-text-inline">{{ curentDataA.temperature }}</span>
                                         </div>
-                                        <div class="vk_bk wob-unit" style="float:left;font-size:16px;margin-top:6px">
-                                            <span class="wob_t" style="display:inline" aria-label="°Celsius" aria-disabled="true" role="button">°C</span>
+                                        <div class="card-text-kiri-helper-kecil">
+                                            <span class="card-text-inline">°C</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div aria-level="3" role="heading" style="padding-left:10px;float:right">
+                                <div class="card-text-kanan">
                                     <div>
-                                        <div class="vk_bk wob-unit" style="float:right;font-size:16px;margin-top:6px">
-                                                <span class="wob_t" style="display:inline" aria-label="°Celsius" aria-disabled="true" role="button">%</span>
+                                        <div class="card-text-kanan-helper">
+                                                <span class="card-text-inline">%</span>
                                             </div>
-                                        <div class="vk_bk sol-tmp" style="float:right;margin-top:-3px;font-size:64px">
-                                            <span class="wob_t" id="wob_tm" style="display:inline">{{ curentDataA.humadity }}</span>
+                                        <div class="card-text-kanan-helper-kecil">
+                                            <span class="card-text-inline">{{ curentDataA.humadity }}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <img style="float:right;height:64px;width:64px" alt="Humadity" src="./resources/img/Humidity.svg">
+                                <img class="card-svg-img-kanan" ng-if="isDark" alt="Humadity" src="./resources/img/Humidity.svg">
+                                <img class="card-svg-img-kanan" ng-if="!isDark" alt="Humadity" src="./resources/img/Humidity-Dark.svg">
                             </div>
                         </div>
                     </md-card-content>
                 </md-card>
-                <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                <md-card>
                     <md-card-title>
                             <md-card-title-text>
                                 <span class="md-headline">KONDISI TERKINI DI RUMAH</span>
@@ -98,43 +136,68 @@
                     </md-card-title>
                     <md-card-content>
 
-                        <div id="wob_d" style="font:16px arial,helvetica,sans-serif;padding:20px 0 0;-webkit-touch-callout:none;-webkit-user-select:none">
+                        <div class="card-container">
                             <div>
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 1" alt="Cloud" src="./resources/img/Cloud.svg"><!--  -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 2" alt="Cloud Drizzle" src="./resources/img/Cloud-Drizzle.svg"><!-- Rain -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 3" alt="Sun" src="./resources/img/Sun.svg"><!-- Clear -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 4" alt="Cloud Sun" src="./resources/img/Cloud-Sun.svg"><!-- Clouds -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 5" alt="Cloud Lightning" src="./resources/img/Cloud-Lightning.svg"><!-- Thunderstorm -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 6" alt="Cloud Fog" src="./resources/img/Cloud-Fog.svg"><!-- Haze Mist Smoke Dust Fog Sand Dust Ash Squall Tornado -->
-                                <img style="float:left;height:64px;width:64px" ng-if="curentDataB.icon == 7" alt="Cloud Rain Sun" src="./resources/img/Cloud-Rain-Sun.svg"><!-- Drizzle -->
-                                <div aria-level="3" role="heading" style="padding-left:10px;float:left">
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataB.icon == 1">
+                                    <use xlink:href="#img-cloud"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataB.icon == 2">
+                                    <use xlink:href="#img-cloud-drizzle"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataB.icon == 3">
+                                    <use xlink:href="#img-sun"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataB.icon == 4">
+                                    <use xlink:href="#img-cloud-sun"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataB.icon == 5">
+                                    <use xlink:href="#img-cloud-lightning"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataB.icon == 6">
+                                    <use xlink:href="#img-cloud-fog"></use>
+                                </svg>
+                                <svg role="img" class="card-svg-img-kiri" ng-if="curentDataB.icon == 7">
+                                    <use xlink:href="#img-cloud-rain-sun"></use>
+                                </svg>
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataB.icon == 1" alt="Cloud" src="./resources/img/Cloud.svg"> -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataB.icon == 2" alt="Cloud Drizzle" src="./resources/img/Cloud-Drizzle.svg">Rain -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataB.icon == 3" alt="Sun" src="./resources/img/Sun.svg">Clear -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataB.icon == 4" alt="Cloud Sun" src="./resources/img/Cloud-Sun.svg">Clouds -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataB.icon == 5" alt="Cloud Lightning" src="./resources/img/Cloud-Lightning.svg">Thunderstorm -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataB.icon == 6" alt="Cloud Fog" src="./resources/img/Cloud-Fog.svg">Haze Mist Smoke Dust Fog Sand Dust Ash Squall Tornado -->
+                                <!-- <img class="card-svg-img-kiri" ng-if="curentDataB.icon == 7" alt="Cloud Rain Sun" src="./resources/img/Cloud-Rain-Sun.svg">Drizzle -->
+                                <div aria-level="3" role="heading" class="card-text-kiri">
                                     <div>
-                                        <div class="vk_bk sol-tmp" style="float:left;margin-top:-3px;font-size:64px">
-                                            <span class="wob_t" id="wob_tm" style="display:inline">{{ curentDataB.temperature }}</span>
+                                        <div class="card-text-kiri-helper">
+                                            <span class="card-text-inline">{{ curentDataB.temperature }}</span>
                                         </div>
-                                        <div class="vk_bk wob-unit" style="float:left;font-size:16px;margin-top:6px">
-                                            <span class="wob_t" style="display:inline" aria-label="°Celsius" aria-disabled="true" role="button">°C</span>
+                                        <div class="card-text-kiri-helper-kecil">
+                                            <span class="card-text-inline">°C</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div aria-level="3" role="heading" style="padding-left:10px;float:right">
+                                <div class="card-text-kanan">
                                     <div>
-                                        <div class="vk_bk wob-unit" style="float:right;font-size:16px;margin-top:6px">
-                                                <span class="wob_t" style="display:inline" aria-label="°Celsius" aria-disabled="true" role="button">%</span>
+                                        <div class="card-text-kanan-helper">
+                                                <span class="card-text-inline">%</span>
                                             </div>
-                                        <div class="vk_bk sol-tmp" style="float:right;margin-top:-3px;font-size:64px">
-                                            <span class="wob_t" id="wob_tm" style="display:inline">{{ curentDataB.humadity }}</span>
+                                        <div class="card-text-kanan-helper-kecil">
+                                            <span class="card-text-inline">{{ curentDataB.humadity }}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <img style="float:right;height:64px;width:64px" alt="Humadity" src="./resources/img/Humidity.svg">
+                                <img class="card-svg-img-kanan" ng-if="isDark" alt="Humadity" src="./resources/img/Humidity.svg">
+                                <img class="card-svg-img-kanan" ng-if="!isDark" alt="Humadity" src="./resources/img/Humidity-Dark.svg">
+                                <!-- <svg role="img" class="card-svg-img-kanan">
+                                    <use xlink:href="#img-humidity"></use>
+                                </svg> -->
                             </div>
                         </div>
                     </md-card-content>
                 </md-card>
             </div>
             <div flex-xs flex-sm flex-gt-sm="50" layout="column">
-                <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+                <md-card >
                     <md-card-title>
                         <md-card-title-text>
                             <span class="md-headline">STATISTIK DURASI HUJAN DI RUMAH (MENIT)</span>
@@ -146,63 +209,42 @@
                         </div>
                     </md-card-content>
                 </md-card>
-                <!-- <md-card md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch>
-                    <md-card-title>
-                        <md-card-title-text>
-                            <span class="md-headline">Card with image</span>
-                            <span class="md-subhead">Medium</span>
-                        </md-card-title-text>
-                        <md-card-title-media>
-                            <div class="md-media-md card-media"></div>
-                        </md-card-title-media>
-                    </md-card-title>
-                    <md-card-actions layout="row" layout-align="end center">
-                        <md-button>Action 1</md-button>
-                        <md-button>Action 2</md-button>
-                    </md-card-actions>
-                </md-card> -->
-                <!-- <div layout layout-padding layout-align="center end" style="height:200px">
-                    <md-checkbox ng-model="showDarkTheme">Use 'Dark' Themed Cards</md-checkbox>
-                </div> -->
             </div>
         </md-content>
 
     </section>
     <section ng-cloak>
-        <div layout="row" flex="noshrink" layout-align="center center">
-            <div id="license-footer" flex>
-                &copy; 2019 - Alfian Rikzandi - ARProject - Tugas Proposal Individu Bahasa Indonesia.
+        <md-content>
+            <div layout="row" flex="noshrink" layout-align="center center">
+                <div id="license-footer" flex>
+                    &copy; 2019 - Alfian Rikzandi - ARProject - Tugas Proposal Individu Bahasa Indonesia {{ isDark }}
+                </div>
             </div>
-        </div>
+        </md-content>
     </section>
-    
-    <!-- <div id="base-scripts" data-scripts="[{ 
-        &quot;url&quot;: &quot;main.js&quot;,
-        &quot;options&quot;: {
-        &quot;async&quot;: false,
-        &quot;defer&quot;: false
-        }
-        }]">
-    </div>
-    <div id="extra-scripts" data-scripts="">
-    </div> -->
-    <!-- <script type="text/javascript">
-        var base_scripts = document.querySelector("#base-scripts").getAttribute('data-scripts');
-        base_scripts = JSON.parse(base_scripts);
-        var extra_scripts = document.querySelector("#extra-scripts").getAttribute('data-scripts');
-        if (extra_scripts) {
-            extra_scripts = JSON.parse(extra_scripts);
-        } else {
-            extra_scripts = [];
-        }
-        var scripts = base_scripts.concat(extra_scripts);
-        scripts.forEach(function(scriptObj) {
-            var s = document.createElement('script');
-            s.async = scriptObj.options.async;
-            s.defer = scriptObj.options.defer;
-            s.src = scriptObj.url;
-            document.head.appendChild(s);
-        });
-    </script> -->
+
+    <svg class="svg-assets" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="img-cloud" viewBox="0 0 100 100">
+            <path stroke="null" ng-class="{'dark': isDark}" id="svg_6" d="m36.194126,85.890648c-19.629589,0 -35.544332,-15.912521 -35.544332,-35.544332c0,-19.631811 15.914742,-35.544332 35.544332,-35.544332c13.339678,0 24.948575,7.358596 31.027415,18.225413c1.475274,-0.251063 2.972766,-0.455469 4.516916,-0.455469c14.723858,0 26.65936,11.937723 26.65936,26.661581c0,14.719415 -11.935501,26.657138 -26.65936,26.657138c-6.165491,0 -28.43902,0 -35.544332,0zm35.544332,-8.887194c9.815906,0 17.774388,-7.958482 17.774388,-17.769944c0,-9.815906 -7.958482,-17.774388 -17.774388,-17.774388c-3.554878,0 -6.847583,1.068685 -9.627053,2.868342c-2.735034,-11.811081 -13.273024,-20.640508 -25.917279,-20.640508c-14.721637,0 -26.657138,11.935501 -26.657138,26.65936c0,14.721637 11.935501,26.657138 26.657138,26.657138c8.036245,0 28.836722,0 35.544332,0z" clip-rule="evenodd" fill-rule="evenodd"/>
+        </symbol>
+        <symbol id="img-cloud-drizzle" viewBox="0 0 100 100">
+            <path stroke="null" ng-class="{'dark': isDark}" id="svg_18" d="m81.406564,70.867782l0,-9.828712c5.355201,-3.107228 8.969457,-8.886448 8.969457,-15.524923c0,-9.911721 -8.03168,-17.947888 -17.943401,-17.947888c-3.594065,0 -6.918911,1.079117 -9.723268,2.89634c-2.763975,-11.926372 -13.400342,-20.841985 -26.168021,-20.841985c-14.867582,0 -26.917345,12.052007 -26.917345,26.919589c0,7.962132 3.47516,15.096418 8.969457,20.025356l0,11.02449c-10.717133,-6.209969 -17.943401,-17.772896 -17.943401,-31.049847c0,-19.823443 16.067847,-35.89129 35.89129,-35.89129c13.46989,0 25.192105,7.430426 31.330283,18.403316c1.489675,-0.253514 2.997297,-0.459915 4.561007,-0.459915c14.867582,0 26.917345,12.05425 26.917345,26.921832c0,11.713241 -7.495487,21.656371 -17.943401,25.353636zm-49.352206,-25.351392c2.476809,0 4.486972,2.00792 4.486972,4.486972l0,8.969457c0,2.479052 -2.010163,4.486972 -4.486972,4.486972c-2.479052,0 -4.486972,-2.00792 -4.486972,-4.486972l0,-8.969457c0,-2.481296 2.00792,-4.486972 4.486972,-4.486972zm0,26.917345c2.476809,0 4.486972,2.00792 4.486972,4.486972l0,8.969457c0,2.479052 -2.010163,4.486972 -4.486972,4.486972c-2.479052,0 -4.486972,-2.00792 -4.486972,-4.486972l0,-8.969457c0,-2.481296 2.00792,-4.486972 4.486972,-4.486972zm17.943401,-17.947888c2.479052,0 4.486972,2.010163 4.486972,4.486972l0,8.973944c0,2.476809 -2.00792,4.486972 -4.486972,4.486972c-2.476809,0 -4.482485,-2.010163 -4.482485,-4.486972l0,-8.973944c0,-2.476809 2.00792,-4.486972 4.482485,-4.486972zm0,26.921832c2.479052,0 4.486972,2.00792 4.486972,4.482485l0,8.973944c0,2.479052 -2.00792,4.486972 -4.486972,4.486972c-2.476809,0 -4.482485,-2.00792 -4.482485,-4.486972l0,-8.973944c0,-2.476809 2.00792,-4.482485 4.482485,-4.482485zm17.947888,-35.89129c2.476809,0 4.486972,2.00792 4.486972,4.486972l0,8.969457c0,2.479052 -2.010163,4.486972 -4.486972,4.486972c-2.479052,0 -4.486972,-2.00792 -4.486972,-4.486972l0,-8.969457c0,-2.481296 2.00792,-4.486972 4.486972,-4.486972zm0,26.917345c2.476809,0 4.486972,2.00792 4.486972,4.486972l0,8.969457c0,2.479052 -2.010163,4.486972 -4.486972,4.486972c-2.479052,0 -4.486972,-2.00792 -4.486972,-4.486972l0,-8.969457c0,-2.481296 2.00792,-4.486972 4.486972,-4.486972z" clip-rule="evenodd" fill-rule="evenodd"/>
+        </symbol>
+        <symbol id="img-sun" viewBox="0 0 100 100">
+            <path stroke="null" ng-class="{'dark': isDark}" id="svg_1" d="m95.548316,54.398981l-8.321774,0c-2.30004,0 -4.162969,-1.862929 -4.162969,-4.160887s1.862929,-4.162969 4.162969,-4.162969l8.321774,0c2.30004,0 4.162969,1.86501 4.162969,4.162969s-1.860847,4.160887 -4.162969,4.160887zm-16.35006,-27.706638c-1.625639,1.625639 -4.264961,1.625639 -5.886438,0c-1.625639,-1.625639 -1.625639,-4.260798 0,-5.886438l5.886438,-5.886438c1.621476,-1.625639 4.260798,-1.625639 5.886438,0c1.621476,1.625639 1.621476,4.260798 0,5.886438l-5.886438,5.886438zm-29.43427,48.519401c-13.793997,0 -24.977812,-11.181734 -24.977812,-24.973649c0,-13.793997 11.181734,-24.975731 24.977812,-24.975731c13.793997,0 24.973649,11.181734 24.973649,24.975731c0,13.791915 -11.179653,24.973649 -24.973649,24.973649zm0,-41.623443c-9.195998,0 -16.651875,7.453796 -16.651875,16.649793c0,9.193916 7.457958,16.649793 16.651875,16.649793s16.647712,-7.455877 16.647712,-16.649793c0,-9.195998 -7.451714,-16.649793 -16.647712,-16.649793zm0,-16.649793c-2.30004,0 -4.162969,-1.86501 -4.162969,-4.162969l0,-8.323856c0,-2.297959 1.862929,-4.162969 4.162969,-4.162969c2.297959,0 4.162969,1.86501 4.162969,4.162969l0,8.323856c0,2.297959 -1.867091,4.162969 -4.162969,4.162969zm-29.43427,9.753836l-5.886438,-5.886438c-1.625639,-1.625639 -1.625639,-4.260798 0,-5.886438s4.260798,-1.625639 5.886438,0l5.886438,5.886438c1.625639,1.625639 1.625639,4.260798 0,5.886438s-4.260798,1.625639 -5.886438,0zm-3.867398,23.545751c0,2.297959 -1.86501,4.160887 -4.162969,4.160887l-8.325937,0c-2.297959,0 -4.160887,-1.862929 -4.160887,-4.160887s1.86501,-4.162969 4.160887,-4.162969l8.325937,0c2.30004,0 4.162969,1.86501 4.162969,4.162969zm3.867398,23.545751c1.625639,-1.623558 4.260798,-1.623558 5.886438,0c1.625639,1.625639 1.625639,4.26288 0,5.886438l-5.886438,5.886438c-1.625639,1.625639 -4.260798,1.625639 -5.886438,0c-1.625639,-1.623558 -1.625639,-4.260798 0,-5.886438l5.886438,-5.886438zm29.43427,9.753836c2.297959,0 4.162969,1.862929 4.162969,4.160887l0,8.325937c0,2.297959 -1.86501,4.162969 -4.162969,4.162969c-2.30004,0 -4.162969,-1.86501 -4.162969,-4.162969l0,-8.325937c0,-2.297959 1.862929,-4.160887 4.162969,-4.160887zm29.43427,-9.753836l5.886438,5.886438c1.621476,1.625639 1.621476,4.26288 0,5.886438c-1.625639,1.625639 -4.264961,1.625639 -5.886438,0l-5.886438,-5.886438c-1.625639,-1.623558 -1.625639,-4.260798 0,-5.886438c1.621476,-1.625639 4.258717,-1.625639 5.886438,0z" clip-rule="evenodd" fill-rule="evenodd"/>
+        </symbol>
+        <symbol id="img-cloud-fog" viewBox="0 0 100 100">
+            <path stroke="null" ng-class="{'dark': isDark}" id="svg_32" d="m95.558327,77.40302l-90.691129,0c-2.503388,0 -4.535123,-2.031735 -4.535123,-4.535123c0,-2.505656 2.031735,-4.535123 4.535123,-4.535123l90.691129,0c2.503388,0 4.535123,2.029468 4.535123,4.535123c0,2.501121 -2.029468,4.535123 -4.535123,4.535123zm0,-18.140493l-90.691129,0c-2.503388,0 -4.535123,-2.029468 -4.535123,-4.535123c0,-2.503388 2.031735,-4.535123 4.535123,-4.535123l90.691129,0c2.503388,0 4.535123,2.031735 4.535123,4.535123c0,2.505656 -2.029468,4.535123 -4.535123,4.535123zm-22.673349,-27.206205c-3.630366,0 -6.990893,1.08843 -9.825345,2.927422c-2.793636,-12.056625 -13.546413,-21.067915 -26.451107,-21.067915c-15.024864,0 -27.206205,12.183609 -27.206205,27.21074l-9.070247,0c0,-20.033907 16.242544,-36.278719 36.276452,-36.278719c13.61444,0 25.46245,7.510164 31.666499,18.603076c1.505661,-0.256234 3.03173,-0.46485 4.609953,-0.46485c11.841207,0 21.886505,7.578191 25.625714,18.140493l-9.934188,0c-3.138305,-5.419472 -8.981812,-9.070247 -15.691527,-9.070247zm-68.01778,54.41241l90.691129,0c2.503388,0 4.535123,2.031735 4.535123,4.535123c0,2.505656 -2.031735,4.535123 -4.535123,4.535123l-90.691129,0c-2.503388,0 -4.535123,-2.029468 -4.535123,-4.535123c0,-2.503388 2.029468,-4.535123 4.535123,-4.535123z" clip-rule="evenodd" fill-rule="evenodd"/>
+        </symbol>
+        <symbol id="img-cloud-lightning" viewBox="0 0 100 100">
+            <path stroke="null" ng-class="{'dark': isDark}" id="svg_26" d="m72.379859,72.385455c-0.626793,0 -1.452816,0 -2.377335,0l8.025186,-9.876463c7.120813,-2.366143 12.260514,-9.072825 12.260514,-16.986083c0,-9.889894 -8.016231,-17.903887 -17.906125,-17.903887c-3.583911,0 -6.901436,1.074502 -9.699618,2.887724c-2.757888,-11.900108 -13.373071,-20.796088 -26.112633,-20.796088c-14.832602,0 -26.858069,12.025466 -26.858069,26.862546c0,12.191119 8.130397,22.47052 19.260445,25.752227l-3.019798,8.454986c-14.595317,-4.5241 -25.194829,-18.127741 -25.194829,-34.209452c0,-19.777549 16.034701,-35.814489 35.812251,-35.814489c13.440227,0 25.136627,7.414063 31.261288,18.365027c1.486394,-0.255194 2.992935,-0.458902 4.550963,-0.458902c14.834841,0 26.860307,12.023228 26.860307,26.858069s-12.027705,26.864784 -26.862546,26.864784zm-26.858069,-31.339637l22.380978,0l-13.429034,22.385455l15.66758,0l-29.096614,35.812251l8.058764,-26.858069l-14.7744,0l11.192727,-31.339637z" clip-rule="evenodd" fill-rule="evenodd"/>
+        </symbol>
+        <symbol id="img-cloud-rain-sun" viewBox="0 0 100 100">
+            <path stroke="null" ng-class="{'dark': isDark}" id="svg_38" d="m91.342687,43.383418l-6.615756,0c-1.825949,0 -3.307878,-1.480275 -3.307878,-3.307878c0,-1.825949 1.481929,-3.307878 3.307878,-3.307878l6.615756,0c1.825949,0 3.307878,1.481929 3.307878,3.307878c0,1.829257 -1.481929,3.307878 -3.307878,3.307878zm-12.994999,-22.017237c-1.291726,1.291726 -3.385613,1.291726 -4.67734,0c-1.291726,-1.290072 -1.291726,-3.385613 0,-4.67734l4.67734,-4.67734c1.291726,-1.290072 3.385613,-1.290072 4.67734,0c1.291726,1.291726 1.291726,3.387267 0,4.67734l-4.67734,4.67734zm-4.874158,25.813027l0,0c2.894393,3.446809 4.639299,7.889289 4.639299,12.741947c0,8.638524 -5.527464,15.96382 -13.228205,18.691165l0,-7.245907c3.95126,-2.287398 6.615756,-6.551253 6.615756,-11.445258c0,-7.305449 -5.92441,-13.229859 -13.231513,-13.229859c-2.646303,0 -5.100748,0.793891 -7.168172,2.135235c-2.034345,-8.793994 -9.878978,-15.365094 -19.291545,-15.365094c-10.960654,0 -19.843961,8.884961 -19.843961,19.843961c0,5.871484 2.56526,11.127702 6.615756,14.761406l0,8.130764c-7.900867,-4.578103 -13.231513,-13.102505 -13.231513,-22.892171c0,-14.612552 11.845512,-26.458063 26.459717,-26.458063c2.599992,0 5.110672,0.38206 7.480766,1.081676c3.630396,-4.675686 9.290176,-7.697432 15.671073,-7.697432c10.960654,0 19.843961,8.883307 19.843961,19.843961c-0.001654,2.507372 -0.48295,4.89566 -1.331421,7.103668zm-18.514194,-20.331873c-3.656859,0 -6.971353,1.485237 -9.364603,3.886757c3.870217,2.373403 7.087129,5.709398 9.310023,9.682159c1.098216,-0.186895 2.21297,-0.339058 3.362458,-0.339058c3.514621,0 6.812575,0.924552 9.675544,2.525565l0,0c0.158778,-0.817046 0.248091,-1.660555 0.248091,-2.525565c0,-7.308757 -5.92441,-13.229859 -13.231513,-13.229859zm0,-13.231513c-1.825949,0 -3.307878,-1.480275 -3.307878,-3.307878l0,-6.614102c0,-1.825949 1.481929,-3.306224 3.307878,-3.306224c1.827603,0 3.307878,1.480275 3.307878,3.306224l0,6.614102c0,1.829257 -1.478622,3.307878 -3.307878,3.307878zm-23.386699,7.750359l-4.67734,-4.67734c-1.288419,-1.290072 -1.288419,-3.385613 0,-4.67734c1.291726,-1.290072 3.388921,-1.290072 4.67734,0l4.67734,4.67734c1.291726,1.291726 1.291726,3.387267 0,4.67734c-1.291726,1.291726 -3.385613,1.291726 -4.67734,0zm-3.073019,38.554974c1.827603,0 3.307878,1.481929 3.307878,3.307878l0,26.459717c0,1.827603 -1.480275,3.307878 -3.307878,3.307878c-1.825949,0 -3.307878,-1.480275 -3.307878,-3.307878l0,-26.459717c0,-1.825949 1.483583,-3.307878 3.307878,-3.307878zm13.231513,6.615756c1.825949,0 3.307878,1.480275 3.307878,3.307878l0,26.459717c0,1.825949 -1.481929,3.307878 -3.307878,3.307878c-1.827603,0 -3.307878,-1.481929 -3.307878,-3.307878l0,-26.459717c0,-1.829257 1.480275,-3.307878 3.307878,-3.307878zm13.228205,-6.615756c1.827603,0 3.307878,1.481929 3.307878,3.307878l0,26.459717c0,1.827603 -1.480275,3.307878 -3.307878,3.307878c-1.825949,0 -3.307878,-1.480275 -3.307878,-3.307878l0,-26.459717c0,-1.825949 1.483583,-3.307878 3.307878,-3.307878z" clip-rule="evenodd" fill-rule="evenodd"/>
+        </symbol>
+        <symbol id="img-cloud-sun" viewBox="0 0 100 100">
+            <path stroke="null" ng-class="{'dark': isDark}" id="svg_5" d="m96.086431,53.857696l-7.340815,0c-2.026065,0 -3.670408,-1.642507 -3.670408,-3.670408c0,-2.026065 1.644343,-3.666737 3.670408,-3.666737l7.340815,0c2.026065,0 3.670408,1.642507 3.670408,3.666737c0,2.0279 -1.644343,3.670408 -3.670408,3.670408zm-14.419196,-24.430233c-1.433294,1.433294 -3.756662,1.433294 -5.189956,0c-1.433294,-1.431459 -1.433294,-3.756662 0,-5.188121l5.189956,-5.189956c1.433294,-1.433294 3.756662,-1.433294 5.189956,0c1.433294,1.431459 1.433294,3.756662 0,5.189956l-5.189956,5.188121zm-5.408346,28.642025l0,0c3.209771,3.828235 5.149582,8.753922 5.149582,14.140245c0,12.158225 -9.858715,22.018775 -22.02061,22.018775c-5.09269,0 -23.492443,0 -29.35959,0c-16.214025,0 -29.35959,-13.143729 -29.35959,-29.35959s13.145565,-29.35959 29.35959,-29.35959c2.88494,0 5.67078,0.425767 8.300627,1.200223c4.028272,-5.188121 10.310175,-8.541038 17.388556,-8.541038c12.161895,0 22.02061,9.86055 22.02061,22.018775c-0.001835,2.780334 -0.53955,5.434038 -1.479174,7.8822zm-68.251228,6.79943c0,12.161895 9.856879,22.018775 22.018775,22.018775c6.636097,0 23.81911,0 29.35959,0c8.10793,0 14.679795,-6.5737 14.679795,-14.67796c0,-8.10793 -6.571865,-14.68163 -14.679795,-14.68163c-2.936326,0 -5.657933,0.884568 -7.951938,2.369248c-2.259136,-9.755943 -10.963507,-17.047208 -21.407652,-17.047208c-12.161895,0 -22.018775,9.856879 -22.018775,22.018775zm47.707957,-29.35959c-4.059471,0 -7.735384,1.648013 -10.390924,4.310894c4.294377,2.635353 7.863848,6.336959 10.330362,10.743283c1.218575,-0.207378 2.453667,-0.376217 3.730969,-0.376217c3.899808,0 7.559204,1.025879 10.735942,2.802356l0,0c0.17618,-0.906591 0.275281,-1.842545 0.275281,-2.802356c0,-8.10426 -6.5737,-14.67796 -14.68163,-14.67796zm0,-14.68163c-2.026065,0 -3.668572,-1.642507 -3.668572,-3.668572l0,-7.33898c0,-2.0279 1.644343,-3.670408 3.668572,-3.670408c2.0279,0 3.670408,1.642507 3.670408,3.670408l0,7.33898c0,2.0279 -1.640672,3.668572 -3.670408,3.668572zm-25.949781,8.599765l-5.188121,-5.188121c-1.433294,-1.433294 -1.433294,-3.758497 0,-5.189956c1.431459,-1.433294 3.756662,-1.433294 5.188121,0l5.189956,5.189956c1.433294,1.431459 1.433294,3.756662 0,5.188121c-1.431459,1.433294 -3.756662,1.433294 -5.189956,0z" clip-rule="evenodd" fill-rule="evenodd"/>
+        </symbol>
+    </svg>
 </body>
 </html>

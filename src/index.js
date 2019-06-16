@@ -1,17 +1,36 @@
+<script> 
+    var x = 5; 
+    var y = 6; 
+    var z = x + y; 
+    document.getElementById("sampel").innerHTML = z; 
+</script>
+
 (function(){
     'use strict';
 
         angular.module('app', ["ngMaterial", "ngAnimate", "ngAria", "ngMessages", require('./resources/js/angular-chart')])
-            .config(function($mdThemingProvider, $locationProvider){
+            .config(['$mdThemingProvider', '$locationProvider', function($mdThemingProvider, $locationProvider){
                 /* SETTING TEMA */
-                $mdThemingProvider.theme('default')
+                /* $mdThemingProvider.theme('default')
                     .primaryPalette('blue')
                     .accentPalette('pink');
 
                 $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
                 $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
                 $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
-                $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
+                $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark(); */
+
+                $mdThemingProvider.theme('altTheme')
+                    .primaryPalette('grey',{'default': '900'})
+                    .accentPalette('pink',{'default': '700'})
+                    // .backgroundPalette('grey',{'default': '900'})
+                    .dark();
+                $mdThemingProvider.theme('default')
+                    .primaryPalette('blue')
+                    .accentPalette('pink');
+                    
+                $mdThemingProvider.setDefaultTheme('default');
+                $mdThemingProvider.alwaysWatchTheme(true);
 
                 /* SETTING URL YANG INGIN DI PAKE */
                 $locationProvider.html5Mode(
@@ -21,21 +40,17 @@
                         rewriteLinks: false 
                     }
                 );
-            })
+            }])
             .config(['ChartJsProvider', function (ChartJsProvider) {
                 // Configure all charts
                 ChartJsProvider.setOptions({
-                    chartColors: ['#FF5252', '#FF8A80'],
+                    chartColors: ['#2196F3', '#0D47A1'],
                     responsive: true,
                     maintainAspectRatio: false
                 });
-                // Configure all line charts
-                ChartJsProvider.setOptions('line', {
-                    // showLines: false
-                });
             }])
             .controller('app_control', ['$scope', '$location', '$timeout', '$mdToast', '$mdSidenav', '$rootScope', '$http', '$interval', '$mdDialog', '$window', function ($scope, $location, $timeout, $mdToast, $mdSidenav, $rootScope, $http, $interval, $mdDialog, $window) {
-                const base_url = "http://127.0.0.1/";
+                const base_url = "https://arduino-arproject.herokuapp.com/public/";
 
                 /* KONDISI TANGERANG */
                 $scope.curentDataA = {
@@ -59,14 +74,32 @@
                         tooltips: {
                             mode: 'point'
                         },
+                        hover: {
+                            mode: 'nearest',
+                            intersect: true
+                        },
                         legend: {
                             labels: {
-                                fontColor: 'black',
-                                fontStyle: 'arial,helvetica,sans-serif'
+                                fontColor: 'red',
                             }
+                        },
+                        pointLabels: {
+                            fontColor: 'white'
                         },
                         barValueSpacing: 1,
                         animation: false,
+                        scales: {
+                            yAxes: [{
+                                gridLines: {
+                                    // color: 'rgba(255, 255, 255, 0.9)'
+                                }
+                            }],
+                            xAxes: [{
+                                gridLines: {
+                                    // color: 'rgba(255, 255, 255, 0.9)'
+                                }
+                            }]
+                        }
                     },
                     series: [
                         
@@ -82,13 +115,25 @@
                 $scope.init = function() {
                     getKondisi();
                     getStatistik();
+                    $scope.dynamicTheme = "default";
+                };
+
+                $scope.isDark = false;
+                $scope.themeChanger = function() {
+                    if($scope.dynamicTheme=="default"){
+                        $scope.dynamicTheme = "altTheme";
+                        $scope.isDark = true;
+                    }else{
+                        $scope.dynamicTheme = "default";
+                        $scope.isDark = false;
+                    }
                 };
 
                 var temp_data = [];
                 for (let index = 0; index <= 30; index++) {
-                    let LABEL = (index + 1);
+                    let LABEL = "-";
                     $scope.statistik.labels.push(LABEL);
-                    temp_data.push(getRandomInt(1, 100));
+                    temp_data.push(0);
                 };
                 $scope.statistik.data.push(temp_data);
 
@@ -100,8 +145,7 @@
                     // chart.update();
                 }
 
-                // Simulate async data update
-                var temp_curent_tanggal = 31;
+                // dataUpdate 
                 $interval(function () {
                     getKondisi();
                 }, 15000);

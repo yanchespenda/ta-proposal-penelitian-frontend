@@ -6,8 +6,8 @@ const env = process.env.NODE_ENV;
 const path = require('path');
 
 module.exports = {
-    // mode: "production",
-    mode: "development",
+    mode: "production",
+    // mode: "development",
     entry: {
         style: path.resolve(__dirname, 'src/style.js'),
         vendor: path.resolve(__dirname, 'src/vendor.js'),
